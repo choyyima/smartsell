@@ -1,3 +1,11 @@
+<?php
+session_start();
+include "config.php";
+$get = $_SESSION;
+if (empty($get['uName'])) {
+    header('Location: index.html');
+}
+?>
 <!DOCTYPE html>
 <html lang="en">
     <head>
@@ -72,7 +80,7 @@
 
                 <div class="navbar-buttons navbar-header pull-right" role="navigation">
                     <ul class="nav ace-nav">
-                        
+
                         <li class="purple">
                             <a data-toggle="dropdown" class="dropdown-toggle" href="#">
                                 <i class="ace-icon fa fa-bell icon-animated-bell"></i>
@@ -147,7 +155,7 @@
                                 <img class="nav-user-photo" src="assets/avatars/user.jpg" alt="Jason's Photo" />
                                 <span class="user-info">
                                     <small>Welcome,</small>
-                                    Jason
+                                    <?php echo $get['uName']; ?>
                                 </span>
 
                                 <i class="ace-icon fa fa-caret-down"></i>
@@ -199,7 +207,7 @@
                     }
                 </script>
 
-               <ul class="nav nav-list">
+                <ul class="nav nav-list">
                     <li class="active">
                         <a href="index.html">
                             <i class="menu-icon fa fa-tachometer"></i>
@@ -255,7 +263,7 @@
                             </li>
                             <li class="active">Dashboard</li>
                         </ul><!-- /.breadcrumb -->
-                        
+
                     </div>
 
                     <div class="page-content">
