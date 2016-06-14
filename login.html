@@ -62,20 +62,20 @@
 
                                             <div class="space-6"></div>
 
-                                            <form action="" method="POST">
+                                            <form action="#" method="POST">
                                                 <div id="notif">
                                                 </div>
                                                 <fieldset>
                                                     <label class="block clearfix">
                                                         <span class="block input-icon input-icon-right">
-                                                            <input type="text" class="form-control" placeholder="Username" />
+                                                            <input type="text" name="user" class="form-control" id="username" placeholder="Username" />
                                                             <i class="ace-icon fa fa-user"></i>
                                                         </span>
                                                     </label>
 
                                                     <label class="block clearfix">
                                                         <span class="block input-icon input-icon-right">
-                                                            <input type="password" class="form-control" placeholder="Password" />
+                                                            <input type="password" name="passwd" class="form-control" id="password" placeholder="Password" />
                                                             <i class="ace-icon fa fa-lock"></i>
                                                         </span>
                                                     </label>
@@ -83,7 +83,7 @@
                                                     <div class="space"></div>
 
                                                     <div class="clearfix">
-                                                        <button type="button" class="width-35 pull-right btn btn-sm btn-primary">
+                                                        <button type="button" id="login" class="width-35 pull-right btn btn-sm btn-primary">
                                                             <i class="ace-icon fa fa-key"></i>
                                                             <span class="bigger-110">Login</span>
                                                         </button>
@@ -165,7 +165,7 @@
                                             <div class="space-6"></div>
                                             <p> Enter your details to begin: </p>
 
-                                            <form method="post" action="#">
+                                            <form method="post" action="#" id="formreg">
                                                 <fieldset>
 
                                                     <label class="block clearfix">
@@ -265,6 +265,7 @@
 
         <!--[if !IE]> -->
         <script src="assets/js/jquery.2.1.1.min.js"></script>
+        <script src="assets/js/bootstrap.min.js"></script>
 
 
         <!--[if !IE]> -->
@@ -297,24 +298,8 @@ window.jQuery || document.write("<script src='assets/js/jquery1x.min.js'>"+"<"+"
 
             });
 
-
-
             //you don't need this, just used for changing background
             jQuery(function ($) {
-                // $('#btn-login-dark').on('click', function(e) {
-                // $('body').attr('class', 'login-layout');
-                // $('#id-text2').attr('class', 'white');
-                // $('#id-company-text').attr('class', 'blue');
-
-                // e.preventDefault();
-                // });
-                // $('#btn-login-light').on('click', function(e) {
-                // $('body').attr('class', 'login-layout light-login');
-                // $('#id-text2').attr('class', 'grey');
-                // $('#id-company-text').attr('class', 'blue');
-
-                // e.preventDefault();
-                // });
                 $('#btn-login-blur').on('click', function (e) {
                     $('body').attr('class', 'login-layout blur-login');
                     $('#id-text2').attr('class', 'white');
@@ -345,11 +330,39 @@ window.jQuery || document.write("<script src='assets/js/jquery1x.min.js'>"+"<"+"
                             city: cityreg
                         }, function (data) {
                             if (data === 'You have Successfully Registered.....') {
-                                $("form")[0].reset();
+                                $("#formreg")[0].reset();
                             }
                             alert(data);
+                            window.location = "login.html";
                         });
                     }
+                });
+                
+                $("#notif").css('display', 'none', 'important');
+                $("#login").click(function () {
+                    username = $('#username').val();
+                    password = $("#password").val();
+                    $.ajax({
+                        type: "POST",
+                        url: "login.php",
+                        data: "username=" + username + "&password=" + password,
+                        success: function (html) {
+                            if (html === 'true') {
+                                window.location = "index.html";
+                            } else {
+                                if (html === 'false') {
+                                    $("#notif").css('display', 'inline', 'important');
+//                                    $("#notif").html("<p style='color: red; font-size: 14px;'>Wrong username or password </p>");
+                                } 
+                            }
+                        },
+                        beforeSend: function ()
+                        {
+                            $("#loading").css('display', 'inline', 'important');
+                            $("#loading").html(" Loading...");
+                        }
+                    });
+                    return false;
                 });
             });
         </script>
