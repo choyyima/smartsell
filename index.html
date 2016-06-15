@@ -62,7 +62,7 @@
 
                                             <div class="space-6"></div>
 
-                                            <form action="#" method="POST">
+                                            <form action="#" method="POST" name="login" id="logins">
                                                 <div id="notif">
                                                 </div>
                                                 <fieldset>
@@ -83,7 +83,7 @@
                                                     <div class="space"></div>
 
                                                     <div class="clearfix">
-                                                        <button type="button" id="login" class="width-35 pull-right btn btn-sm btn-primary">
+                                                        <button type="submit" id="login" class="width-35 pull-right btn btn-sm btn-primary">
                                                             <i class="ace-icon fa fa-key"></i>
                                                             <span class="bigger-110">Login</span>
                                                         </button>
@@ -287,8 +287,8 @@ window.jQuery || document.write("<script src='assets/js/jquery1x.min.js'>"+"<"+"
 
         <!-- inline scripts related to this page -->
         <script type="text/javascript">
-            jQuery(function ($) {
-                $(document).on('click', '.toolbar a[data-target]', function (e) {
+            jQuery(function($) {
+                $(document).on('click', '.toolbar a[data-target]', function(e) {
                     e.preventDefault();
                     var target = $(this).data('target');
                     $('.widget-box.visible').removeClass('visible');//hide others
@@ -299,8 +299,8 @@ window.jQuery || document.write("<script src='assets/js/jquery1x.min.js'>"+"<"+"
             });
 
             //you don't need this, just used for changing background
-            jQuery(function ($) {
-                $('#btn-login-blur').on('click', function (e) {
+            jQuery(function($) {
+                $('#btn-login-blur').on('click', function(e) {
                     $('body').attr('class', 'login-layout blur-login');
                     $('#id-text2').attr('class', 'white');
                     $('#id-company-text').attr('class', 'light-blue');
@@ -310,8 +310,8 @@ window.jQuery || document.write("<script src='assets/js/jquery1x.min.js'>"+"<"+"
 
             });
 
-            $(document).ready(function () {
-                $("#register").click(function () {
+            $(document).ready(function() {
+                $("#register").click(function() {
                     var usernamereg = $("#usernamereg").val();
                     var emailreg = $("#emailreg").val();
                     var passwordreg = $("#passwordreg").val();
@@ -328,35 +328,35 @@ window.jQuery || document.write("<script src='assets/js/jquery1x.min.js'>"+"<"+"
                             email: emailreg,
                             password: passwordreg,
                             city: cityreg
-                        }, function (data) {
+                        }, function(data) {
                             if (data === 'You have Successfully Registered.....') {
                                 $("#formreg")[0].reset();
                             }
                             alert(data);
-                            window.location = "login.html";
+                            window.location = "index.html";
                         });
                     }
                 });
-                
+
                 $("#notif").css('display', 'none', 'important');
-                $("#login").click(function () {
+                $("#login").click(function() {
                     username = $('#username').val();
                     password = $("#password").val();
                     $.ajax({
                         type: "POST",
                         url: "login.php",
                         data: "username=" + username + "&password=" + password,
-                        success: function (html) {
+                        success: function(html) {
                             if (html === 'true') {
-                                window.location = "index.html";
+                                window.location = "index.php";
                             } else {
                                 if (html === 'false') {
                                     $("#notif").css('display', 'inline', 'important');
 //                                    $("#notif").html("<p style='color: red; font-size: 14px;'>Wrong username or password </p>");
-                                } 
+                                }
                             }
                         },
-                        beforeSend: function ()
+                        beforeSend: function()
                         {
                             $("#loading").css('display', 'inline', 'important');
                             $("#loading").html(" Loading...");
