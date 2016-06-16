@@ -15,8 +15,8 @@ include("config.inc.php"); //include config file
         <link rel="stylesheet" href="assets/css/ace.min.css" class="ace-main-stylesheet" id="main-ace-style" />
         <script src="assets/js/ace-extra.min.js"></script>
         <script>
-            $(document).ready(function () {
-                $(".form-item").submit(function (e) {
+            $(document).ready(function() {
+                $(".form-item").submit(function(e) {
                     var form_data = $(this).serialize();
                     var button_content = $(this).find('button[type=submit]');
                     button_content.html('Adding...'); //Loading button text 
@@ -26,7 +26,7 @@ include("config.inc.php"); //include config file
                         type: "POST",
                         dataType: "json", //expect json value from server
                         data: form_data
-                    }).done(function (data) { //on Ajax success
+                    }).done(function(data) { //on Ajax success
                         $("#cart-info").html(data.items); //total items in cart-info element
                         button_content.html('Add to Cart'); //reset button text to original text
                         alert("Item added to Cart!"); //alert user
@@ -38,7 +38,7 @@ include("config.inc.php"); //include config file
                 });
 
                 //Show Items in Cart
-                $(".cart-box").click(function (e) { //when user clicks on cart box
+                $(".cart-box").click(function(e) { //when user clicks on cart box
                     e.preventDefault();
                     $(".shopping-cart-box").fadeIn(); //display cart box
                     $("#shopping-cart-results").html('<img src="images/ajax-loader.gif">'); //show loading image
@@ -46,17 +46,17 @@ include("config.inc.php"); //include config file
                 });
 
                 //Close Cart
-                $(".close-shopping-cart-box").click(function (e) { //user click on cart box close link
+                $(".close-shopping-cart-box").click(function(e) { //user click on cart box close link
                     e.preventDefault();
                     $(".shopping-cart-box").fadeOut(); //close cart-box
                 });
 
                 //Remove items from cart
-                $("#shopping-cart-results").on('click', 'a.remove-item', function (e) {
+                $("#shopping-cart-results").on('click', 'a.remove-item', function(e) {
                     e.preventDefault();
                     var pcode = $(this).attr("data-code"); //get product code
                     $(this).parent().fadeOut(); //remove item element from box
-                    $.getJSON("cart_process.php", {"remove_code": pcode}, function (data) { //get Item count from Server
+                    $.getJSON("cart_process.php", {"remove_code": pcode}, function(data) { //get Item count from Server
                         $("#cart-info").html(data.items); //update Item count in cart-info
                         $(".cart-box").trigger("click"); //trigger click on cart-box to update the items list
                     });
@@ -96,49 +96,80 @@ include("config.inc.php"); //include config file
 
         while ($row = $results->fetch_assoc()) {
             $products_list .= <<<EOT
-<li>
-<form class="form-item">
-<h4>{$row["product_name"]}</h4>
-<div><img src="images/{$row["product_image"]}"></div>
-<div>Price : {$currency} {$row["product_price"]}<div>
-<div class="item-box">
-    <div>
-	Color :
-    <select name="product_color">
-    <option value="Red">Red</option>
-    <option value="Blue">Blue</option>
-    <option value="Orange">Orange</option>
-    </select>
-	</div>
-	
-	<div>
-    Qty :
-    <select name="product_qty">
-    <option value="1">1</option>
-    <option value="2">2</option>
-    <option value="3">3</option>
-    <option value="4">4</option>
-    <option value="5">5</option>
-    </select>
-	</div>
-	
-	<div>
-    Size :
-    <select name="product_size">
-	<option value="M">M</option>
-    <option value="XL">XL</option>
-    <option value="XXL">XLL</option>
-    </select>
-	</div>
-	
-    <input name="product_code" type="hidden" value="{$row["product_code"]}">
-    <button type="submit">Add to Cart</button>
-</div>
-</form>
-</li>
+                    
+                    
+                        <div class="row">
+                            <div class="col-xs-12">
+                                <!-- PAGE CONTENT BEGINS -->
+                                <div class="row"> 
+                                  <form class="form-item">
+                                    <div class="col-xs-6 col-sm-3 pricing-box">
+                                        <div class="widget-box widget-color-orange">
+                                            <div class="widget-header">
+                                                <h5 class="widget-title bigger lighter">{$row["product_name"]}</h5>
+                                            </div>
+                                            <div class="widget-body">               
+                                                <div class="widget-main">
+                                                    <ul class="list-unstyled spaced2">    
+                                                        <li class="center">
+                                                            <img  src="images/{$row["product_image"]}">
+                                                        </li>
+                                                        <li>
+                                                            <div class="item-box">
+                                                                <div>
+                                                                    Color :
+                                                                <select name="product_color">
+                                                                <option value="Red">Red</option>
+                                                                <option value="Blue">Blue</option>
+                                                                <option value="Orange">Orange</option>
+                                                                </select>
+                                                                    </div>
+
+                                                                    <div>
+                                                                Qty :
+                                                                <select name="product_qty">
+                                                                <option value="1">1</option>
+                                                                <option value="2">2</option>
+                                                                <option value="3">3</option>
+                                                                <option value="4">4</option>
+                                                                <option value="5">5</option>
+                                                                </select>
+                                                                    </div>
+
+                                                                    <div>
+                                                                Size :
+                                                                <select name="product_size">
+                                                                    <option value="M">M</option>
+                                                                <option value="XL">XL</option>
+                                                                <option value="XXL">XLL</option>
+                                                                </select>
+                                                                    </div>
+                                                        </li>
+                                                            <input name="product_code" type="hidden" value="{$row["product_code"]}">                                                            
+                                                    </ul>
+
+                                                    <hr />
+                                                    <div class="price">                                                        
+                                                      Price : {$currency} {$row["product_price"]}
+                                                    </div>
+                                                </div>
+
+                                                <div>
+                                                    <button type="submit" class="btn btn-block btn-warning">
+                                                        <i class="ace-icon fa fa-shopping-cart bigger-110"></i>
+                                                        <span>Buy</span>
+                                                    </button>
+                                                </div> 
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div><!-- PAGE CONTENT ENDS -->
+                            </div><!-- /.col -->
+                          </form>
+                        <!-- /.row -->          
 EOT;
         }
-        $products_list .= '</ul></div>';
+        $products_list .= '</div>';
 
         echo $products_list;
         ?>

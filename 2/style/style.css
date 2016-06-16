@@ -2,7 +2,7 @@ body {
 	background-color: #F9F9F9;
 	font-family: Georgia, "Times New Roman", Times, serif;
 }
-ul.products-wrp {
+/*ul.products-wrp {
 	list-style: none;
 	padding: 0;
 	max-width: 650px;
@@ -43,7 +43,7 @@ ul.products-wrp li .item-box button{
 }
 ul.products-wrp li .item-box button[disabled=disabled]{
 	background: #FC84A8;
-}
+}*/
 
 .cart-box {
 	display: block;
