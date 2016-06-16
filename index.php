@@ -344,6 +344,8 @@ window.jQuery || document.write("<script src='assets/js/jquery1x.min.js'>"+"<"+"
         <!--[if lte IE 8]>
           <script src="assets/js/excanvas.min.js"></script>
         <![endif]-->
+        
+        <script src="assets/js/bootstrap.min.js"></script>
         <script src="assets/js/jquery-ui.custom.min.js"></script>
         <script src="assets/js/jquery.ui.touch-punch.min.js"></script>
         <script src="assets/js/jquery.easypiechart.min.js"></script>
@@ -351,6 +353,11 @@ window.jQuery || document.write("<script src='assets/js/jquery1x.min.js'>"+"<"+"
         <script src="assets/js/jquery.flot.min.js"></script>
         <script src="assets/js/jquery.flot.pie.min.js"></script>
         <script src="assets/js/jquery.flot.resize.min.js"></script>
+        
+        <script src="assets/js/jquery.dataTables.min.js"></script>
+        <script src="assets/js/jquery.dataTables.bootstrap.min.js"></script>
+        <script src="assets/js/dataTables.tableTools.min.js"></script>
+        <script src="assets/js/dataTables.colVis.min.js"></script>
 
         <!-- ace scripts -->
         <script src="assets/js/ace-elements.min.js"></script>
@@ -358,8 +365,8 @@ window.jQuery || document.write("<script src='assets/js/jquery1x.min.js'>"+"<"+"
 
         <!-- inline scripts related to this page -->
         <script type="text/javascript">
-            jQuery(function($) {
-                $('.easy-pie-chart.percentage').each(function() {
+            jQuery(function ($) {
+                $('.easy-pie-chart.percentage').each(function () {
                     var $box = $(this).closest('.infobox');
                     var barColor = $(this).data('color') || (!$box.hasClass('infobox-dark') ? $box.css('color') : 'rgba(255,255,255,0.95)');
                     var trackColor = barColor == 'rgba(255,255,255,0.95)' ? 'rgba(255,255,255,0.25)' : '#E2E2E2';
@@ -375,7 +382,7 @@ window.jQuery || document.write("<script src='assets/js/jquery1x.min.js'>"+"<"+"
                     });
                 })
 
-                $('.sparkline').each(function() {
+                $('.sparkline').each(function () {
                     var $box = $(this).closest('.infobox');
                     var barColor = !$box.hasClass('infobox-dark') ? $box.css('color') : '#FFF';
                     $(this).sparkline('html',
@@ -443,7 +450,7 @@ window.jQuery || document.write("<script src='assets/js/jquery1x.min.js'>"+"<"+"
                 var $tooltip = $("<div class='tooltip top in'><div class='tooltip-inner'></div></div>").hide().appendTo('body');
                 var previousPoint = null;
 
-                placeholder.on('plothover', function(event, pos, item) {
+                placeholder.on('plothover', function (event, pos, item) {
                     if (item) {
                         if (previousPoint != item.seriesIndex) {
                             previousPoint = item.seriesIndex;
@@ -459,7 +466,7 @@ window.jQuery || document.write("<script src='assets/js/jquery1x.min.js'>"+"<"+"
                 });
 
                 /////////////////////////////////////
-                $(document).one('ajaxloadstart.page', function(e) {
+                $(document).one('ajaxloadstart.page', function (e) {
                     $tooltip.remove();
                 });
 
@@ -536,7 +543,7 @@ window.jQuery || document.write("<script src='assets/js/jquery1x.min.js'>"+"<"+"
                 //so disable dragging when clicking on label
                 var agent = navigator.userAgent.toLowerCase();
                 if ("ontouchstart" in document && /applewebkit/.test(agent) && /android/.test(agent))
-                    $('#tasks').on('touchstart', function(e) {
+                    $('#tasks').on('touchstart', function (e) {
                         var li = $(e.target).closest('#tasks li');
                         if (li.length == 0)
                             return;
@@ -552,14 +559,14 @@ window.jQuery || document.write("<script src='assets/js/jquery1x.min.js'>"+"<"+"
                     placeholder: 'draggable-placeholder',
                     forcePlaceholderSize: true,
                     tolerance: 'pointer',
-                    stop: function(event, ui) {
+                    stop: function (event, ui) {
                         //just for Chrome!!!! so that dropdowns on items don't appear below other items after being moved
                         $(ui.item).css('z-index', 'auto');
                     }
                 }
                 );
                 $('#tasks').disableSelection();
-                $('#tasks input:checkbox').removeAttr('checked').on('click', function() {
+                $('#tasks input:checkbox').removeAttr('checked').on('click', function () {
                     if (this.checked)
                         $(this).closest('li').addClass('selected');
                     else
@@ -568,7 +575,7 @@ window.jQuery || document.write("<script src='assets/js/jquery1x.min.js'>"+"<"+"
 
 
                 //show the dropdowns on top or bottom depending on window height and menu position
-                $('#task-tab .dropdown-hover').on('mouseenter', function(e) {
+                $('#task-tab .dropdown-hover').on('mouseenter', function (e) {
                     var offset = $(this).offset();
 
                     var $w = $(window)
@@ -578,7 +585,8 @@ window.jQuery || document.write("<script src='assets/js/jquery1x.min.js'>"+"<"+"
                         $(this).removeClass('dropup');
                 });
 
-            })
+            });
+
         </script>
     </body>
 </html>
