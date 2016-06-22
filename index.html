@@ -3,7 +3,7 @@
     <head>
         <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
         <meta charset="utf-8" />
-        <title>Login Page - Ace Admin</title>
+        <title>Login Page - Member Application</title>
 
         <meta name="description" content="User login page" />
         <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0" />
@@ -11,6 +11,7 @@
         <!-- bootstrap & fontawesome -->
         <link rel="stylesheet" href="assets/css/bootstrap.min.css" />
         <link rel="stylesheet" href="assets/font-awesome/4.2.0/css/font-awesome.min.css" />
+        <link rel="icon" type="image/png" href="favicon.ico">
 
         <!-- text fonts -->
         <link rel="stylesheet" href="assets/fonts/fonts.googleapis.com.css" />
@@ -62,7 +63,7 @@
 
                                             <div class="space-6"></div>
 
-                                            <form action="#" method="POST" name="login" id="logins">
+                                            <form action="#" method="POST" name="logins" id="logins">
                                                 <div id="notif">
                                                 </div>
                                                 <fieldset>
@@ -97,13 +98,13 @@
 
                                         <div class="toolbar clearfix">
                                             <div>
-                                                <a href="#" data-target="#forgot-box" class="forgot-password-link">
+                                              <!--  <a href="#" data-target="#forgot-box" class="forgot-password-link">
                                                     <i class="ace-icon fa fa-arrow-left"></i>
                                                     I forgot my password
-                                                </a>
+                                                </a>-->
                                             </div>
 
-                                            <div>
+                                            <div class="text-right">
                                                 <a href="#" data-target="#signup-box" class="user-signup-link">
                                                     I want to register
                                                     <i class="ace-icon fa fa-arrow-right"></i>
@@ -339,7 +340,7 @@ window.jQuery || document.write("<script src='assets/js/jquery1x.min.js'>"+"<"+"
                 });
 
                 $("#notif").css('display', 'none', 'important');
-                $("#login").click(function() {
+                $("#logins").click(function() {
                     username = $('#username').val();
                     password = $("#password").val();
                     $.ajax({
@@ -353,6 +354,7 @@ window.jQuery || document.write("<script src='assets/js/jquery1x.min.js'>"+"<"+"
                                 if (html === 'false') {
                                     $("#notif").css('display', 'inline', 'important');
 //                                    $("#notif").html("<p style='color: red; font-size: 14px;'>Wrong username or password </p>");
+									//alert("Wrong username or password");
                                 }
                             }
                         },

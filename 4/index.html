@@ -1,0 +1,172 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <title>Live filter - jQuery Ajax PHP</title>
+  <link href='http://fonts.googleapis.com/css?family=Droid+Sans' rel='stylesheet' type='text/css'>
+  <link rel="stylesheet" href="assets/style.css">
+  <script src="http://code.jquery.com/jquery-1.10.2.js"></script>
+  <script>
+  $(document).ready(function(){
+    $('.category').on('change', function(){
+      var category_list = [];
+      $('#filters :input:checked').each(function(){
+        var category = $(this).val();
+        category_list.push(category);
+      });
+
+      if(category_list.length == 0)
+        $('.resultblock').fadeIn();
+      else {
+        $('.resultblock').each(function(){
+          var item = $(this).attr('data-tag');
+          if(jQuery.inArray(item,category_list) > -1)
+            $(this).fadeIn('slow');
+          else
+            $(this).hide();
+        });
+      }   
+    });
+  }); 
+  </script>
+</head>
+<body>
+<div id="demo-header"></div>
+<div style="width:970px;height:auto;margin:0 auto; display:block">
+<script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+<!-- Section Banner -->
+<ins class="adsbygoogle"
+     style="display:inline-block;width:970px;height:90px"
+     data-ad-client="ca-pub-8373139083624562"
+     data-ad-slot="3520784576"></ins>
+<script>
+(adsbygoogle = window.adsbygoogle || []).push({});
+</script>
+</div>
+ <div class="container">
+ 	<div id="filters">
+ 		<div class="filterblock">
+	 		  <input id="check1" type="checkbox" name="check" value="game" class="category">
+    		<label for="check1">Games</label>
+	 	</div>
+
+ 		<div class="filterblock">
+	 		  <input id="check2" type="checkbox" name="check" value="technology" class="category">
+    		<label for="check2">Technology</label>
+	 	</div>
+
+	 	<div class="filterblock">
+	 		  <input id="check3" type="checkbox" name="check" value="os" class="category">
+    		<label for="check3">Operating System</label>
+	 	</div>
+ 	</div>
+ 	<div class="searchresults">
+ 		
+ 		<div class="resultblock" data-tag="game">
+ 			<img src="images/bf.jpg" class="itemimg"> 				
+ 			<div class="desc">
+ 				<div class="desc_text">
+ 					Battlefield 4 is a 2013 first-person shooter video game developed by Swedish video game developer EA Digital Illusions CE (DICE) and published by Electronic Arts. It is a sequel to 2011's Battlefield 3 and was released on October 29, 2013 in North America, October 31, 2013 in Australia, November 1, 2013 in Europe and New Zealand and November 7, 2013 in Japan for Microsoft Windows, PlayStation 3, PlayStation 4, Xbox 360 and Xbox One.
+ 				</div>
+ 			</div>
+ 		</div>
+
+ 		<div class="resultblock" data-tag="os">
+ 			<img src="images/osx.jpg" class="itemimg"> 				
+ 			<div class="desc">
+ 				<div class="desc_text">
+ 					OS X, formerly known as Mac OS X, is a series of Unix-based graphical interface operating systems developed and marketed by Apple Inc. It is designed to run on Mac computers, having been pre-installed on all Macs since 2002. It was the successor to Mac OS 9, released in 1999, the final release of the "classic" Mac OS, which had been Apple's primary operating system since 1984. The first version released was Mac OS X Server 1.0 in 1999, and a desktop version, Mac OS X v10.0 "Cheetah" followed on March 24, 2001
+ 				</div>
+ 			</div>
+ 		</div>
+
+ 		<div class="resultblock" data-tag="technology">
+ 			<img src="images/php.jpg" class="itemimg"> 				
+ 			<div class="desc">
+ 				<div class="desc_text">
+ 					PHP is a server-side scripting language designed for web development but also used as a general-purpose programming language. As of January 2013, PHP was installed on more than 240 million websites (39% of those sampled) and 2.1 million web servers. Originally created by Rasmus Lerdorf in 1994, the reference implementation of PHP (powered by the Zend Engine) is now produced by The PHP Group.
+ 				</div>
+ 			</div>
+ 		</div>
+
+ 		<div class="resultblock" data-tag="game">
+ 			<img src="images/cod.jpg" class="itemimg"> 				
+ 			<div class="desc">
+ 				<div class="desc_text">
+ 					Call of Duty: Advanced Warfare is a first-person shooter video game published by Activision. Released on November 4, 2014, Sledgehammer Games developed the Microsoft Windows, PlayStation 4 and Xbox One versions of the game, while High Moon Studios developed the versions released on PlayStation 3 and Xbox 360.
+ 				</div>
+ 			</div>
+ 		</div>
+
+ 		<div class="resultblock" data-tag="technology">
+ 			<img src="images/jquery.jpg" class="itemimg"> 				
+ 			<div class="desc">
+ 				<div class="desc_text">
+ 					jQuery is a cross-platform JavaScript library designed to simplify the client-side scripting of HTML. Used by over 60% of the 10,000 most visited websites, jQuery is the most popular JavaScript library in use today. jQuery is free, open-source software licensed under the MIT License.
+ 				</div>
+ 			</div>
+ 		</div>
+
+ 		<div class="resultblock" data-tag="os">
+ 			<img src="images/linux.jpg" class="itemimg"> 				
+ 			<div class="desc">
+ 				<div class="desc_text">
+ 					Linux is a Unix-like and mostly POSIX-compliant computer operating system assembled under the model of free and open-source software development and distribution. The defining component of Linux is the Linux kernel, an operating system kernel first released on 5 October 1991 by Linus Torvalds. The Free Software Foundation uses the name GNU/Linux to describe the operating system, which has led to some controversy.
+ 				</div>
+ 			</div>
+ 		</div> 
+
+ 		<div class="resultblock" data-tag="technology">
+ 			<img src="images/net.jpg" class="itemimg"> 				
+ 			<div class="desc">
+ 				<div class="desc_text">
+ 					The domain name net is a generic top-level domain (gTLD) used in the Domain Name System of the Internet. The name is derived from network, indicating it was originally intended for organizations involved in networking technologies, such as Internet service providers and other infrastructure companies. However, restrictions were never enforced and the domain is now a general purpose name space. It is still popular with network operators, and is often treated as an alternative to com.
+ 				</div>
+ 			</div>
+ 		</div>
+
+ 		<div class="resultblock" data-tag="game">
+ 			<img src="images/nfs.jpg" class="itemimg"> 				
+ 			<div class="desc">
+ 				<div class="desc_text">
+ 					Need for Speed: The Run is a racing video game, the eighteenth title in the long-running Need for Speed franchise, and developed by EA Black Box and published by Electronic Arts. The Wii and 3DS versions were developed by Firebrand Games, the team behind Undercover and Nitro (both DS versions). It was released in North America on November 15, 2011 and November 18, 2011 in Europe.
+ 				</div>
+ 			</div>
+ 		</div>
+
+ 		<div class="resultblock" data-tag="os">
+ 			<img src="images/windows.jpg" class="itemimg"> 				
+ 			<div class="desc">
+ 				<div class="desc_text">
+ 					Microsoft Windows or Windows is a metafamily of graphical operating systems developed, marketed, and sold by Microsoft. It consists of several families of operating systems, each of which cater to a certain sector of the computing industry. Active Windows families include Windows NT, Windows Embedded and Windows Phone; these may encompass subfamilies, e.g. Windows Embedded Compact (Windows CE) or Windows Server. Defunct Windows families include Windows 9x and Windows Mobile.
+ 				</div>
+ 			</div>
+ 		</div>		
+
+ 	</div>
+ </div>
+		<div style="width:336px;height:auto;margin:0 auto;display:block">
+			<script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+			<!-- Post Header -->
+			<ins class="adsbygoogle"
+			     style="display:inline-block;width:336px;height:280px"
+			     data-ad-client="ca-pub-8373139083624562"
+			     data-ad-slot="5259712973"></ins>
+			<script>
+			(adsbygoogle = window.adsbygoogle || []).push({});
+			</script>
+		</div>
+		<footer>
+            <a  href="http://www.jqueryajaxphp.com/jquery-live-filter-with-multiple-options">Tutorial: jQuery live filter with multiple options</a>
+		</footer>
+ <script>
+  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+  (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+  m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+  })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+  ga('create', 'UA-46486866-1', 'jqueryajaxphp.com');
+  ga('send', 'pageview');
+</script>
+</body>
+</html>

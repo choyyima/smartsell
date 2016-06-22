@@ -1,53 +1,16 @@
-<script>
-    $(document).ready(function() {
-        $(".form-item").submit(function(e) {
-            var form_data = $(this).serialize();
-            var button_content = $(this).find('button[type=submit]');
-            button_content.html('Adding...'); //Loading button text 
+<?php
+include("config.php");
 
-            $.ajax({//make ajax request to cart_process.php
-                url: "cart_process.php",
-                type: "POST",
-                dataType: "json", //expect json value from server
-                data: form_data
-            }).done(function(data) { //on Ajax success
-                $("#cart-info").html(data.items); //total items in cart-info element
-                button_content.html('Add to Cart'); //reset button text to original text
-                alert("Item added to Cart!"); //alert user
-                if ($(".shopping-cart-box").css("display") === "block") { //if cart box is still visible
-                    $(".cart-box").trigger("click"); //trigger click to update the cart box.
-                }
-            });
-            e.preventDefault();
-        });
+if (!isset($_SESSION["REMOTE_ADDR"])) {
+    $_SESSION["REMOTE_ADDR"] = $_SERVER['REMOTE_ADDR'];
+} else {
+    
+}
+?>
+<script type="text/javascript" language="javascript" src="jquery_1.5.2.js"></script>
+<script type="text/javascript" language="javascript" src="vasplus_programming_blog_shopping_cart_v4.js"></script>
+<link type="text/css" rel="stylesheet" media="all" href="vasplus_programming_blog_shopping_cart_v4.css" />
 
-        //Show Items in Cart
-        $(".cart-box").click(function(e) { //when user clicks on cart box
-            e.preventDefault();
-            $(".shopping-cart-box").fadeIn(); //display cart box
-            $("#shopping-cart-results").html('<img src="assets/images/ajax-loader.gif">'); //show loading image
-            $("#shopping-cart-results").load("cart_process.php", {"load_cart": "1"}); //Make ajax request using jQuery Load() & update results
-        });
-
-        //Close Cart
-        $(".close-shopping-cart-box").click(function(e) { //user click on cart box close link
-            e.preventDefault();
-            $(".shopping-cart-box").fadeOut(); //close cart-box
-        });
-
-        //Remove items from cart
-        $("#shopping-cart-results").on('click', 'a.remove-item', function(e) {
-            e.preventDefault();
-            var pcode = $(this).attr("data-code"); //get product code
-            $(this).parent().fadeOut(); //remove item element from box
-            $.getJSON("cart_process.php", {"remove_code": pcode}, function(data) { //get Item count from Server
-                $("#cart-info").html(data.items); //update Item count in cart-info
-                $(".cart-box").trigger("click"); //trigger click on cart-box to update the items list
-            });
-        });
-
-    });
-</script>
 <div class="main-content-inner">
     <div class="breadcrumbs" id="breadcrumbs">
         <script type="text/javascript">
@@ -62,88 +25,190 @@
                 <i class="ace-icon fa fa-home home-icon"></i>
                 <a href="#">Home</a>
             </li>
-
-            <li class="active">Order Menu</li>
+            <li class="active">Order</li>
         </ul><!-- /.breadcrumb -->
-
     </div>
 
     <div class="page-content">
-        <div class="page-header">
-            <h1>
-                Order Menu
-            </h1>
-        </div><!-- /.page-header -->
-        <a href="#" class="cart-box" id="cart-info" title="View Cart">
-            <?php
-            if (isset($_SESSION["products"])) {
-                echo count($_SESSION["products"]);
-            } else {
-                echo 0;
-            }
-            ?>
-        </a>
-
-        <div class="shopping-cart-box">
-            <a href="#" class="close-shopping-cart-box" >Close</a>
-            <h3>Your Shopping Cart</h3>
-            <div id="shopping-cart-results">
-            </div>
-        </div>
         <div class="row">
             <div class="col-xs-12">
-                <!-- PAGE CONTENT BEGINS -->
-                <?php
-                $results = $mysqli_conn->query("SELECT product_name, product_desc, product_code, product_image, product_price FROM products_list");
-                $products_list = '<div class="row pricing-box">';
 
-                while ($row = $results->fetch_assoc()) {
-                    $products_list .= <<<EOT
-                              <form class="form form-item">
-                                <div class="col-xs-6 col-sm-3">
+                <div class="row">
+                    <!--<div class="col-xs-7 col-sm-12">-->
+                    <div class="col-xs-6 pricing-box">
+                        <!--<div class="row">-->
+                        <?php
+                        $dataPerPage = 4;
+                        if (isset($_GET['page'])) {
+                            $noPage = $_GET['page'];
+                        } else {
+                            $noPage = 1;
+                        }
+
+                        $offset = ($noPage - 1) * $dataPerPage;
+                        $vpb_check_items = mysql_query("select * from `products` order by `id` desc LIMIT $offset, $dataPerPage");
+
+                        if (mysql_num_rows($vpb_check_items) < 1) {
+                            ?>
+                            <div id="response" align="center">
+                                <div id="vpb_shopping_cart_is_currently_empty" class="well" align="left">
+                                    There are no items to display.
+                                </div>
+                            </div>
+                            <?php
+                        } else {
+                            while ($vpb_get_items = mysql_fetch_array($vpb_check_items)) {
+                                ?>
+                                <div id="vasplus_programming_blog_shopping_cart_inner_left_wrapper" class="col-xs-5 col-sm-6 pricing-box">
                                     <div class="widget-box widget-color-dark">
                                         <div class="widget-header">
-                                            <h5 class="widget-title bigger lighter">{$row["product_name"]}</h5>
+                                            <h5 class="widget-title bigger lighter"><?php echo strip_tags($vpb_get_items['name']); ?></h5>
                                         </div>
+
                                         <div class="widget-body">
                                             <div class="widget-main">
                                                 <ul class="list-unstyled spaced2">
-                                                    <li class="center">
-                                                        <img src="assets/images/{$row["product_image"]}">
+                                                    <li class="text-center">
+                                                        <img src="<?php echo strip_tags($vpb_get_items['image']); ?>"  width="150" height="150"/>
                                                     </li>
-                                                    <li>
-                                                        <div class="item-box">
-                                                           <div>
-                                                            Qty : <input type="number" class="input-sm" max-leght="10" min-lenght="1" name="product_qty">
-                                                           </div>
-                                                        </li>
-                                                    </li>
-                                                        <input name="product_code" type="hidden" value="{$row["product_code"]}">                                                            
+<!--                                                    <li class="text-center">
+                                                        <?php echo strip_tags($vpb_get_items['description']); ?>
+                                                    </li>-->
                                                 </ul>
 
                                                 <hr />
-                                                <div class="price">                                                        
-                                                  Price : {$currency} {$row["product_price"]}
+                                                <div class="price">
+                                                    Price: Rp <?php echo number_format(strip_tags($vpb_get_items['price'])); ?>
                                                 </div>
                                             </div>
 
                                             <div>
-                                                <button type="submit" class="btn btn-block btn-warning">
+                                                <a onclick="vpb_add_to_cart('<?php echo strip_tags($vpb_get_items['name']); ?>', '<?php echo strip_tags($vpb_get_items['price']); ?>', 'add');"  class="btn btn-block btn-primary">
                                                     <i class="ace-icon fa fa-shopping-cart bigger-110"></i>
-                                                    <span>Buy</span>
-                                                </button>
-                                            </div> 
+                                                    <span>Add To Cart</span>
+                                                </a>
+                                                <!--<input type="button" value="Add to Cart" title="Add this item to cart" />-->
+                                            </div>
                                         </div>
                                     </div>
                                 </div>
-                            </form>       
-EOT;
-                }
-                $products_list .= '</div>';
+                                <?php
+                            }
+                        }
+                        $query = "SELECT COUNT(*) AS jumData FROM products";
+                        $hasil = mysql_query($query);
+                        $data = mysql_fetch_array($hasil);
 
-                echo $products_list;
-                ?>
-            </div>
-        </div>
-    </div>
+                        $jumData = $data['jumData'];
+                        $jumPage = ceil($jumData / $dataPerPage);
+
+                        $showPage = "";
+                        echo "<br/><ul class='pagination middle'>";
+                        if ($noPage > 1) {
+                            echo "<li><a href='" . $_SERVER['PHP_SELF'] . "?m=o&page=" . ($noPage - 1) . "'><< Prev</a></li>";
+                        }
+                        for ($page = 1; $page <= $jumPage; $page++) {
+                            if ((($page >= $noPage - 3) && ($page <= $noPage + 3)) || ($page == 1) || ($page == $jumPage)) {
+                                if (($showPage == 1) && ($page != 2)) {
+                                    echo "<li class='disabled'><a href='#'>...</a></li>";
+                                }
+                                if (($showPage != ($jumPage - 1)) && ($page == $jumPage)) {
+                                    echo "<li class='disabled'><a href='#'>...</a></li>";
+                                }
+                                if ($page == $noPage) {
+                                    echo "<li class='active'><a href='#'>" . $page . "</a></li>";
+                                } else {
+                                    echo "<li><a href='" . $_SERVER['PHP_SELF'] . "?m=o&page=" . $page . "'>" . $page . "</a></li>";
+                                }
+                                $showPage = $page;
+                            }
+                        }
+
+                        if ($noPage < $jumPage) {
+                            echo "<li><a href='" . $_SERVER['PHP_SELF'] . "?m=o&page=" . ($noPage + 1) . "'>Next >></a></li>";
+                        }
+
+                        echo "</ul>";
+                        ?>
+                        <!--</div>-->
+                    </div>
+
+
+                    <div class="col-xs-6">
+                        <div id="vasplus_programming_blog_shopping_cart_right_wrapper">
+                            <h2 class="shopping_cart_status">Shopping Cart Status</h2>
+                            <div class="checkout_user_info" style="display:none;">
+                                <div id="vasplus_programming_blog_cart_titles" style="float:left; width:340px;">Success</div>
+                                <div>
+                                    <input type="hidden" class="vpb_final_total_field" id="cartItemsTotals" disabled="disabled" readonly="readonly" value="" />
+                                </div>
+                            </div>
+
+                            <div id="checkout_user_info" style="display:none;">
+                            </div>
+                            <div id="shopping_cart_status">
+                                <?php
+                                $vpb_check_all_items = mysql_query("select * from `products_added` where `username` = '" . mysql_real_escape_string($_SESSION["REMOTE_ADDR"]) . "' order by `id` asc");
+                                if (mysql_num_rows($vpb_check_all_items) < 1) {
+                                    ?>
+                                    <div id="response" align="center">
+                                        <div id="vpb_shopping_cart_is_currently_empty" class="well" align="left">
+                                            Your shopping cart is empty
+                                        </div></div>
+                                    <?php
+                                } else {
+                                    $vpb_check_itemsTotal = mysql_query("select sum(amount) as `items_total` from `products_added` where `username` = '" . mysql_real_escape_string($_SESSION["REMOTE_ADDR"]) . "'");
+                                    $vpb_get_itemsTotal = mysql_fetch_array($vpb_check_itemsTotal);
+                                    $groundtotal = ($vpb_get_itemsTotal["items_total"]); //Get total of all added items
+                                    ?>
+                                    <div id="response" align="center" style="float:left;">
+                                        <div id="vpb_item_numbers" class="vpb_all_tops">No</div>
+                                        <div id="vpb_item_namess" class="vpb_all_tops" align="left">Item Name</div>
+                                        <div id="vpb_item_prices" class="vpb_all_tops">Price</div>
+                                        <div id="vpb_item_quantities" class="vpb_all_tops">Qty</div>
+                                        <div id="vpb_item_amounts" class="vpb_all_tops">Amount</div>
+                                        <div id="vpb_item_actions" class="vpb_all_tops">Action</div><br clear="all" />
+                                        <?php
+                                        $number_of_items = 1;
+                                        while ($vpb_get_all_items = mysql_fetch_array($vpb_check_all_items)) {
+                                            $item_id = strip_tags($vpb_get_all_items["id"]);
+                                            $item_name = strip_tags($vpb_get_all_items["item_added"]);
+                                            $price = strip_tags($vpb_get_all_items["price"]);
+                                            $quantity = strip_tags($vpb_get_all_items["quantity"]);
+                                            $amount = strip_tags($vpb_get_all_items["amount"]);
+                                            $date = strip_tags($vpb_get_all_items["date"]);
+                                            ?>
+                                            <div id="items_cover<?php echo $item_id; ?>" style="">
+                                                <div id="vpb_item_numbers" style="border-top:0px solid #FFF;"><?php echo $number_of_items++; ?></div>
+                                                <div id="vpb_item_namess" style="border-top:0px solid #FFF;" align="left"><?php echo $item_name; ?></div>
+                                                <div id="vpb_item_prices" style="border-top:0px solid #FFF;">Rp <?php echo number_format($price); ?></div>
+                                                <div id="vpb_item_quantities" style="border-top:0px solid #FFF;"><?php echo $quantity; ?></div>
+                                                <div id="vpb_item_amounts" style="border-top:0px solid #FFF;">Rp <?php echo number_format($amount); ?></div>
+                                                <div id="vpb_item_actions" style="padding-bottom:9px; padding-top:9px;border-top:0px solid #FFF;"><a href="javascript:void(0);" style="width:10px; height:10px; padding:3px;padding-left:8px;padding-right:8px; text-decoration:none;" id="vpb_cart_buttons" title="Remove this item" onclick="vpb_remove_this_item('<?php echo $item_id; ?>');">X</a></div>
+                                                <br clear="all" /></div>
+                                            <?php
+                                        }
+                                        ?>
+                                        <div style="border:1px solid #E2E2E2;border:0px solid #FFF;width:495px;margin-top:25px;">
+                                            <div style="width:295px;float:left; padding-top:1px; font-weight:bold;" align="left">
+                                                <input type="hidden" class="vpb_total_field" disabled="disabled" id="new_sum" value="Items Total: $<?php echo $groundtotal; ?>" />
+                                                Items Total: Rp <?php echo number_format($groundtotal); ?>
+                                            </div>
+                                            <div style="width:100px;float:left;" align="right"><input type="button" value="Clear Cart" title="Clear entire cart items" id="vpb_cart_buttons" onclick="vpb_clear_cart('<?php echo $_SESSION["REMOTE_ADDR"]; ?>');" /></div>
+                                            <input type="hidden" id="vpb_main_total_cart_items" value="<?php echo $groundtotal; ?>" />
+                                            <div style="width:100px;float:left;" align="right"><input type="button" value="Checkout" title="Check out to make payment" id="vasplus_p_blog_add_to_cart_button" onclick="vpb_checkout();" /></div>
+                                        </div><br clear="all" />
+                                        <?php
+                                    }
+                                    ?>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                </div>
+            </div><!-- PAGE CONTENT ENDS -->
+        </div><!-- /.col -->
+    </div><!-- /.row -->
 </div>

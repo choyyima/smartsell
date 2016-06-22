@@ -37,7 +37,7 @@
                                         <div class="row">
                                             <div class="col-xs-8 col-sm-12">
                                                 <select class="chosen-select input-xlarge" id="form-field-select-3" data-placeholder="Choose a State...">
-                                                    <option value="">  </option>
+                                                    <option value="0">-Choose-</option>
                                                     <option value="BCA">BCA</option>
                                                     <option value="Mandiri">Mandiri</option>
                                                     <option value="BNI">BNI</option>
